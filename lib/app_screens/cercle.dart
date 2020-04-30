@@ -7,13 +7,25 @@ class cercle extends StatefulWidget {
 }
 
 class _CercleState extends State<cercle> {
+
+  List<String> currentPin = ["","","","",""] ;
+  TextEditingController pinOneController = TextEditingController() ;
+  TextEditingController pinTwoController = TextEditingController() ;
+  TextEditingController pinThreeController = TextEditingController() ;
+  TextEditingController pinFourController = TextEditingController() ;
+  TextEditingController pinFiveController = TextEditingController() ;
+
+  var outlineInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0) ,
+    borderSide: BorderSide(color: Colors.transparent) ,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xff739D84),
         body: Column(children: <Widget>[
-          Expanded(
-              child: Container(
+          Container(
                 padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
                 decoration: BoxDecoration(
                 color: Color(0xffF2E9DB),
@@ -29,7 +41,7 @@ class _CercleState extends State<cercle> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
-                        height: 62.0,
+                        height: 60.0,
                       ),
                       Text(
                   "Rejoignez un cercle ? ",
@@ -40,7 +52,7 @@ class _CercleState extends State<cercle> {
                       ),
                   ),
                       SizedBox(
-                  height: 17.0,
+                        height: 10.0,
                       ),
                       Text("Veuillez entrer votre code d'invitation",
                         style: TextStyle(
@@ -50,7 +62,11 @@ class _CercleState extends State<cercle> {
                         ),
                       ),
                       SizedBox(
-                        height: 165.0,
+                        height: 20.0,
+                      ),
+                      buildPinRow(),
+                      SizedBox(
+                        height: 50.0,
                       ),
                       Text('NOTE : Vous pouvez demander le code au créateur du cercle',
                     style: TextStyle(
@@ -60,7 +76,7 @@ class _CercleState extends State<cercle> {
                   ),
                 ),
                       SizedBox(
-                        height: 10.0,
+                        height: 20.0,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +105,7 @@ class _CercleState extends State<cercle> {
                       )
               ],
             ),
-          )),
+          ),
                 SizedBox(
                     height: 300.0,
                     child: Column(
@@ -160,4 +176,72 @@ class _CercleState extends State<cercle> {
           )
         ]));
   }
+  buildPinRow(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        PINNumber(
+          outlineInputBorder : outlineInputBorder ,
+          textEditingController : pinOneController ,
+        ),
+        PINNumber(
+          outlineInputBorder : outlineInputBorder ,
+          textEditingController : pinTwoController ,
+        ),
+        PINNumber(
+          outlineInputBorder : outlineInputBorder ,
+          textEditingController : pinThreeController ,
+        ),
+        PINNumber(
+          outlineInputBorder : outlineInputBorder ,
+          textEditingController : pinFourController ,
+        ),
+        PINNumber(
+          outlineInputBorder : outlineInputBorder ,
+          textEditingController : pinFiveController ,
+        ),
+      ],
+    );
+  }
 }
+
+class PINNumber extends StatelessWidget {
+  final OutlineInputBorder outlineInputBorder ;
+  final TextEditingController textEditingController ;
+  PINNumber({this.outlineInputBorder , this.textEditingController});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 50.0,
+      child: TextField(
+
+        controller: textEditingController,
+        enabled: true,
+        obscureText: false,
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(16.0),
+          filled: true ,
+          fillColor: Colors.transparent ,
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.bold ,
+            fontSize: 21.0 ,
+            color: Color(0xff739D84)
+        ),
+        cursorColor: Color(0xff739D84),
+        maxLines: 1,
+        onChanged: (text) {
+          if (text.length > 1) {
+            textEditingController.text = text.substring(text.length - 1);
+          }
+        },
+        keyboardType: TextInputType.number,
+        autofocus: false,
+      ),
+    );
+  }
+}
+
+
